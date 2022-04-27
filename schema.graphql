@@ -1,0 +1,101 @@
+type Room {
+    id: ID!
+    name: String!
+    type: RoomType!
+    occupied: Boolean!
+    reserved: Boolean!
+}
+
+type RoomType {
+    id: ID!
+	name: String!
+	description: String!
+    occupancy: Int!
+	image: String
+	price: Int!
+	facilities: [String!]!
+}
+
+type Table {
+	id: ID!
+	name: String!
+	type: TableType!
+	occupied:   Boolean!
+	reserved: Boolean!
+}
+
+type TableType {
+    id: ID!
+	name: String!
+	description: String!
+    price: Int!
+	image: String!
+}
+
+
+type RoomReservation {
+    id: ID!
+	clientName: String!
+	roomType: RoomType!
+	checkInDate: String!
+	checkOutDate: String!
+	nights: Int!
+	reservationDate: String!
+	assured: Boolean!
+	room: Room!
+	cost: Int!
+}
+
+type TableReservation {
+    id: ID!
+	clientName: String!
+	TableType: TableType!
+	checkInDate: String!
+	checkOutDate: String!
+	reservationDate: String!
+	assured: Boolean!
+	cost: Int!
+}
+
+input RoomDetails {
+	name: String!
+	type: String!
+	occupied: Boolean = false
+	reserved: Boolean = false
+}
+
+input RoomTypeDetails {
+	name: String!
+	description: String!
+	image: String!
+	occupancy: Int!
+	facilities: [String!]!
+	price: Int!
+}
+
+input Reservation {
+	clientName: String!
+	roomType: String!
+	checkInDate: String!
+	checkOutDate: String!
+	nights: Int!
+	reservationDate: String
+	assured: Boolean = false
+}
+
+type Query {
+    getRooms: [Room!]!
+    getRoomTypes: [RoomType!]!
+
+	getRoomReservations: [RoomReservation!]!
+}
+
+type Mutation {
+
+    addRoom(userInput: RoomDetails!): Room!
+    addRoomType(userInput: RoomTypeDetails!): RoomType!
+
+	reserveRoom(userInput: Reservation!): RoomReservation!
+
+}
+

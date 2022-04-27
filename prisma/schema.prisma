@@ -1,0 +1,49 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
+}
+
+model Room {
+  id              String              @id @default(auto()) @map("_id") @db.ObjectId
+  name            String              @unique
+  occupied        Boolean
+  reserved        Boolean
+  type            RoomType?           @relation(fields: [roomTypeId], references: [id])
+  roomTypeId      String              @db.ObjectId
+  reservations    RoomReservation[]
+}
+
+model RoomType {
+  id            String                 @id @default(auto()) @map("_id") @db.ObjectId
+  name          String                 @unique
+  description   String
+  occupancy     Int
+  image         String?
+  price         Int
+  facilities    String[]
+  rooms         Room[]
+  reservations  RoomReservation[]
+}
+
+model RoomReservation {
+  id                  String                  @id @default(auto()) @map("_id") @db.ObjectId
+  clientName          String
+  email               String
+  checkInDate         String
+  checkOutDate        String
+  nights              Int
+  reservationDate     String
+  assured             Boolean
+  roomType            RoomType?               @relation(fields: [roomTypeId], references: [id])
+  roomTypeId          String                  @db.ObjectId
+  room                Room                    @relation(fields: [roomId], references: [id])
+  roomId              String
+  cost                Int
+}

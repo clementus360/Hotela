@@ -1,0 +1,66 @@
+Room: {
+	id,
+	name,
+	type,
+	occupied,
+	reserved(true when reservation is made false after check in time)
+},
+
+RoomType: {
+	id,
+	name,
+	description,
+	image,
+	price,
+	facilities,
+}
+
+Facility: {
+	id,
+	name
+}
+
+RoomReservation: {
+	id,
+	client-name,
+	RoomType,
+	check-in-date,
+	check-out-date,
+	reservation-date,
+	assured,
+	cost
+}
+
+Table: {
+	id,
+	name,
+	type,
+	occupied,
+	reserved
+}
+
+TableType: {
+	id,
+	name,
+	description,
+	image,
+}
+
+RoomReservation: {
+	id,
+	client-name,
+	TableType,
+	check-in-date,
+	check-out-date,
+	reservation-date,
+	assured,
+	cost
+}
+
+RoomReview: {
+	id,
+	reviewer-name,
+	RoomType,
+	comment,
+	stars
+}
