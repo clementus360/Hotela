@@ -36,6 +36,7 @@ type TableType {
 type RoomReservation {
     id: ID!
 	clientName: String!
+	email: String!
 	roomType: RoomType!
 	checkInDate: String!
 	checkOutDate: String!
@@ -76,11 +77,17 @@ input RoomTypeDetails {
 input Reservation {
 	clientName: String!
 	roomType: String!
+	email: String!
 	checkInDate: String!
 	checkOutDate: String!
 	nights: Int!
 	reservationDate: String
 	assured: Boolean = false
+}
+
+input CheckDetails {
+	email: String!
+	room: String!
 }
 
 type Query {
@@ -96,6 +103,9 @@ type Mutation {
     addRoomType(userInput: RoomTypeDetails!): RoomType!
 
 	reserveRoom(userInput: Reservation!): RoomReservation!
+
+	checkIn(userInput: CheckDetails!): RoomReservation!
+	checkOut(userInput: CheckDetails!): Room!
 
 }
 

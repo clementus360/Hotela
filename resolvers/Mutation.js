@@ -71,6 +71,7 @@ const reserveRoom = async (parent, args, { prisma }) => {
 			id: AvailableRoom[0].id
 		},
 		data: {
+			occupied: false,
 			reserved: true
 		}
 	})
@@ -95,8 +96,49 @@ const reserveRoom = async (parent, args, { prisma }) => {
 	})
 }
 
+const checkIn = async (parent, args, { prisma }) => {
+	const { userInput } = args
+
+	const reservedRoom = await prisma.RoomReservation.findMany({
+		where: {
+			room: {
+				name: userInput.room,
+			}
+		},
+		include: {
+			room: true
+		}
+	})
+
+	if (!reservedRoom[0]) {
+		throw new ApolloError(`There is no reservation for room ${userInput.room}`)
+	}
+
+	if(reservedRoom[0].room.occupied) {
+		throw new ApolloError('The room is occupied')
+	}
+
+	return await prisma.RoomReservation.update({
+		where: {
+			id: reservedRoom[0].id
+		},
+		data: {
+			room: {
+				update: {
+					occupied: true,
+					reserved: false
+				}
+			}
+		},
+		include: {
+			room: true
+		}
+	})
+}
+
 module.exports = {
 	addRoom,
 	addRoomType,
-	reserveRoom
+	reserveRoom,
+	checkIn
 }

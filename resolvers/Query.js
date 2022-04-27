@@ -13,6 +13,7 @@ const getRoomTypes = async (parent, args, { prisma }) => {
 const getRoomReservations = async (parent, args, { prisma }) => {
 	return await prisma.RoomReservation.findMany({
 		include: {
+			room: true,
 			roomType: true
 		}
 	})

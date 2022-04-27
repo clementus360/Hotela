@@ -17,7 +17,7 @@ model Room {
   reserved        Boolean
   type            RoomType?           @relation(fields: [roomTypeId], references: [id])
   roomTypeId      String              @db.ObjectId
-  reservations    RoomReservation[]
+  reservations    RoomReservation?
 }
 
 model RoomType {
@@ -43,7 +43,7 @@ model RoomReservation {
   assured             Boolean
   roomType            RoomType?               @relation(fields: [roomTypeId], references: [id])
   roomTypeId          String                  @db.ObjectId
-  room                Room                    @relation(fields: [roomId], references: [id])
-  roomId              String
+  room                Room                    @relation(fields: [roomId], references: [id], onUpdate: Cascade)
+  roomId              String                  @db.ObjectId
   cost                Int
 }
